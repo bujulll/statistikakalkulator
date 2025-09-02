@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Statistik | StatEdu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: url('img/bg-kalkulator.jpg') center/cover no-repeat fixed;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            color: #23201c;
+        }
+
+        .navbar {
+            width: 100%;
+            background: #23201c;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 32px;
+            height: 64px;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar .brand {
+            font-size: 1.35em;
+            font-weight: bold;
+            margin-left: 18px;
+            color: #f7ede2;
+        }
+
+        .navbar .brand b {
+            color: #a97c50;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            margin-right: 12px;
+            text-decoration: none;
+        }
+
+        .hero {
+            min-height: calc(100vh - 64px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 0 80px 0;
+            box-sizing: border-box;
+        }
+
+        .hero-content {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px #0003;
+            padding: 40px 32px 32px 32px;
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .hero-content h2 {
+            color: #a97c50;
+            font-size: 2em;
+            margin-bottom: 18px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .rumus {
+            background: #f7ede2;
+            color: #a97c50;
+            margin: 0 0 24px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.08em;
+            text-align: center;
+        }
+
+        form label {
+            color: #23201c;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        select,
+        input,
+        textarea {
+            border-radius: 8px;
+            border: 1px solid #a97c50;
+            padding: 8px 12px;
+            margin-top: 4px;
+            margin-bottom: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1em;
+            background: #fff;
+            color: #23201c;
+            transition: border 0.2s;
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            border-color: #b6895b;
+            outline: none;
+        }
+
+        button,
+        .penjelasan-btn {
+            background: #a97c50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 1em;
+            transition: background 0.2s, color 0.2s;
+            box-shadow: 0 2px 8px #0001;
+        }
+
+        .penjelasan-btn {
+            background: #fff;
+            color: #a97c50;
+            border: 2px solid #a97c50;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
+
+        .penjelasan-btn:hover {
+            background: #a97c50;
+            color: #fff;
+        }
+
+        button:hover {
+            background: #b6895b;
+        }
+
+        #hasilKalkulator {
+            margin-top: 18px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #23201c;
+            text-align: center;
+            min-height: 24px;
+        }
+
+        #inputKelompok table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+
+        #inputKelompok th {
+            color: #23201c !important;
+            font-weight: bold;
+            font-size: 1em;
+            background: transparent;
+            opacity: 1;
+            padding: 6px 0;
+        }
+
+        #inputKelompok td {
+            padding: 4px 0;
+        }
+
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            z-index: 9999;
+        }
+
+        .modal-penjelasan {
+            background: #fffbe9;
+            color: #23201c;
+            border-radius: 16px;
+            padding: 32px 24px 24px 24px;
+            max-width: 520px;
+            width: 96%;
+            font-size: 1.15em;
+            box-shadow: 0 8px 32px #0005;
+            display: none;
+            z-index: 10000;
+            position: fixed;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-penjelasan h3 {
+            margin-top: 0;
+            color: #a97c50;
+            text-align: center;
+            font-size: 1.25em;
+            font-weight: bold;
+        }
+
+        .modal-penjelasan button {
+            background: #a97c50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 18px;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+
+        .modal-penjelasan b {
+            color: #a97c50;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                padding: 0 12px;
+                height: 52px;
+            }
+
+            .hero-content {
+                padding: 18px 6vw 18px 6vw;
+                max-width: 98vw;
+            }
+
+            .modal-penjelasan {
+                padding: 18px 8vw 18px 8vw;
+            }
+        }
+
+        /* Sticky footer */
+        .footer {
+            width: 100%;
+            background: #23201c;
+            color: #a97c50;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            z-index: 10;
+            box-shadow: 0 -2px 12px #0002;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 18px 0 12px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #a97c50;
+        }
+
+        .footer-copy {
+            font-size: 0.95em;
+            color: #f7ede2;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html#materi" class="back-btn" aria-label="Kembali ke Materi">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
+                <path d="M15 19l-7-7 7-7" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </a>
+        <div class="brand"><span>Kalkulator </span><b>Statistik</b></div>
+    </nav>
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h2>Kalkulator Statistik</h2>
+            <div class="rumus">
+                Pilih jenis data dan ukuran yang ingin dihitung:
+            </div>
+            <form id="calcForm">
+                <label>
+                    Jenis Data:<br>
+                    <select id="jenisData">
+                        <option value="tunggal">Data Tunggal</option>
+                        <option value="kelompok">Data Kelompok</option>
+                    </select>
+                </label>
+                <label>
+                    Ukuran:<br>
+                    <select id="jenisUkuran">
+                        <option value="mean">Mean (Rata-rata)</option>
+                        <option value="median">Median</option>
+                        <option value="modus">Modus</option>
+                        <option value="jangkauan">Jangkauan</option>
+                        <option value="simpangan">Simpangan Rata-rata</option>
+                        <option value="ragam">Ragam (Varians)</option>
+                    </select>
+                </label>
+                <div id="inputTunggal">
+                    <label>
+                        Masukkan Data (pisahkan dengan koma):<br>
+                        <input type="text" id="dataTunggal" placeholder="Contoh: 6,7,8,9,10">
+                    </label>
+                </div>
+                <div id="inputKelompok" style="display:none;">
+                    <label>Masukkan Kelas dan Frekuensi:</label>
+                    <table id="tabelKelompok">
+                        <tr>
+                            <th>Kelas</th>
+                            <th>Frekuensi</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="kelas-input" placeholder="Contoh: 30-39"></td>
+                            <td><input type="number" class="frek-input" min="0"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="kelas-input" placeholder="Contoh: 40-49"></td>
+                            <td><input type="number" class="frek-input" min="0"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" class="kelas-input" placeholder="Contoh: 50-59"></td>
+                            <td><input type="number" class="frek-input" min="0"></td>
+                        </tr>
+                    </table>
+                    <button type="button" onclick="tambahBarisKelompok()" style="margin-bottom:8px;">+ Tambah
+                        Baris</button>
+                </div>
+                <button type="button" onclick="hitungStatistik()">Hitung</button>
+            </form>
+            <div id="hasilKalkulator"></div>
+            <button type="button" class="penjelasan-btn" onclick="showPenjelasan()">Penjelasan</button>
+            <div class="modal-bg" id="modal-bg" onclick="hidePenjelasan()"></div>
+            <div class="modal-penjelasan" id="modal-penjelasan">
+                <h3 id="judulPenjelasan"></h3>
+                <div id="isiPenjelasan"></div>
+                <button onclick="hidePenjelasan()">Tutup</button>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">StatEdu.</div>
+            <div class="footer-copy">&copy; 2025 StatEdu. All rights reserved.</div>
+        </div>
+    </footer>
+    <script>
+        // Ganti input sesuai jenis data
+        document.getElementById('jenisData').onchange = function () {
+            if (this.value === 'tunggal') {
+                document.getElementById('inputTunggal').style.display = '';
+                document.getElementById('inputKelompok').style.display = 'none';
+            } else {
+                document.getElementById('inputTunggal').style.display = 'none';
+                document.getElementById('inputKelompok').style.display = '';
+            }
+        };
+
+        // Fungsi hitung statistik sederhana
+        function hitungStatistik() {
+            var jenis = document.getElementById('jenisData').value;
+            var ukuran = document.getElementById('jenisUkuran').value;
+            var hasil = '';
+            if (jenis === 'tunggal') {
+                var data = document.getElementById('dataTunggal').value.split(',').map(Number).filter(x => !isNaN(x));
+                if (data.length === 0) {
+                    hasil = 'Data tidak valid!';
+                } else if (ukuran === 'mean') {
+                    var mean = data.reduce((a, b) => a + b, 0) / data.length;
+                    hasil = 'Mean = ' + mean.toFixed(2);
+                } else if (ukuran === 'median') {
+                    data.sort((a, b) => a - b);
+                    var n = data.length;
+                    var median = n % 2 ? data[(n - 1) / 2] : (data[n / 2 - 1] + data[n / 2]) / 2;
+                    hasil = 'Median = ' + median;
+                } else if (ukuran === 'modus') {
+                    var freq = {};
+                    data.forEach(x => freq[x] = (freq[x] || 0) + 1);
+                    var max = Math.max(...Object.values(freq));
+                    var modus = Object.keys(freq).filter(k => freq[k] == max).join(', ');
+                    hasil = 'Modus = ' + modus;
+                } else if (ukuran === 'jangkauan') {
+                    hasil = 'Jangkauan = ' + (Math.max(...data) - Math.min(...data));
+                } else if (ukuran === 'simpangan') {
+                    var mean = data.reduce((a, b) => a + b, 0) / data.length;
+                    var simp = data.reduce((a, b) => a + Math.abs(b - mean), 0) / data.length;
+                    hasil = 'Simpangan Rata-rata = ' + simp.toFixed(2);
+                } else if (ukuran === 'ragam') {
+                    var mean = data.reduce((a, b) => a + b, 0) / data.length;
+                    var ragam = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / data.length;
+                    hasil = 'Ragam = ' + ragam.toFixed(2);
+                }
+            } else {
+                // Data kelompok
+                var kelas = [],
+                    frek = [];
+                var baris = document.querySelectorAll('#tabelKelompok tr');
+                for (var i = 1; i < baris.length; i++) {
+                    var kolomKelas = baris[i].querySelector('.kelas-input');
+                    var kolomFrek = baris[i].querySelector('.frek-input');
+                    if (kolomKelas && kolomFrek) {
+                        var k = kolomKelas.value.trim();
+                        var f = Number(kolomFrek.value);
+                        if (k !== '' && !isNaN(f) && f > 0) {
+                            kelas.push(k);
+                            frek.push(f);
+                        }
+                    }
+                }
+                var n = frek.reduce((a, b) => a + b, 0);
+                if (kelas.length === 0 || n === 0) {
+                    hasil = 'Data kelompok tidak valid!';
+                } else if (ukuran === 'mean') {
+                    var xi = kelas.map(function (k) {
+                        var ab = k.split('-').map(Number);
+                        return (ab[0] + ab[1]) / 2;
+                    });
+                    var total = xi.map((x, i) => x * frek[i]).reduce((a, b) => a + b, 0);
+                    hasil = 'Mean = ' + (total / n).toFixed(2);
+                } else if (ukuran === 'median') {
+                    hasil = 'Median kelompok: gunakan rumus median kelompok (butuh tabel kumulatif)';
+                } else if (ukuran === 'modus') {
+                    var maxF = Math.max(...frek);
+                    var idx = frek.indexOf(maxF);
+                    hasil = 'Modus = kelas ' + kelas[idx];
+                } else if (ukuran === 'jangkauan') {
+                    var batasBawah = Number(kelas[0].split('-')[0]);
+                    var batasAtas = Number(kelas[kelas.length - 1].split('-')[1]);
+                    hasil = 'Jangkauan = ' + (batasAtas - batasBawah);
+                } else if (ukuran === 'simpangan') {
+                    var xi = kelas.map(function (k) {
+                        var ab = k.split('-').map(Number);
+                        return (ab[0] + ab[1]) / 2;
+                    });
+                    var mean = xi.map((x, i) => x * frek[i]).reduce((a, b) => a + b, 0) / n;
+                    var simp = xi.map((x, i) => Math.abs(x - mean) * frek[i]).reduce((a, b) => a + b, 0) / n;
+                    hasil = 'Simpangan Rata-rata = ' + simp.toFixed(2);
+                } else if (ukuran === 'ragam') {
+                    var xi = kelas.map(function (k) {
+                        var ab = k.split('-').map(Number);
+                        return (ab[0] + ab[1]) / 2;
+                    });
+                    var mean = xi.map((x, i) => x * frek[i]).reduce((a, b) => a + b, 0) / n;
+                    var ragam = xi.map((x, i) => Math.pow(x - mean, 2) * frek[i]).reduce((a, b) => a + b, 0) / n;
+                    hasil = 'Ragam = ' + ragam.toFixed(2);
+                }
+            }
+            document.getElementById('hasilKalkulator').innerText = hasil;
+        }
+
+        function tambahBarisKelompok() {
+            var tabel = document.getElementById('tabelKelompok');
+            var row = tabel.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = '<input type="text" class="kelas-input" placeholder="Contoh: 60-69">';
+            cell2.innerHTML = '<input type="number" class="frek-input" min="0">';
+        }
+
+        function showPenjelasan() {
+            var jenis = document.getElementById('jenisData').value;
+            var ukuran = document.getElementById('jenisUkuran').value;
+            var judul = '';
+            var isi = '';
+            if (ukuran === 'mean') {
+                judul = 'Penjelasan Mean (Rata-rata)';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Mean = (Jumlah seluruh data) / (Banyak data)<br><b>Contoh:</b> Data: 6,7,8,9,10<br>Mean = (6+7+8+9+10)/5 = 8' :
+                    '<b>Rumus:</b> Mean = Σ(fi × xi) / Σfi<br><b>Contoh:</b> Kelas: 30-39, fi: 4; 40-49, fi: 6<br>xi = (30+39)/2 = 34.5, dst.<br>Mean = (4×34.5 + 6×44.5)/10';
+            } else if (ukuran === 'median') {
+                judul = 'Penjelasan Median';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Median = data ke-(n+1)/2 (jika n ganjil)<br>atau rata-rata dua data tengah (jika n genap)<br><b>Contoh:</b> Data: 6,7,8,9,10<br>Median = 8' :
+                    '<b>Rumus:</b> Median kelompok = L + [(n/2 - F) / f ] × p<br>L = tepi bawah kelas median, F = kumulatif sebelum kelas median, f = frek kelas median, p = panjang kelas';
+            } else if (ukuran === 'modus') {
+                judul = 'Penjelasan Modus';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Modus = nilai yang paling sering muncul<br><b>Contoh:</b> Data: 6,7,8,8,9,10<br>Modus = 8' :
+                    '<b>Rumus:</b> Modus kelompok = kelas dengan frekuensi tertinggi';
+            } else if (ukuran === 'jangkauan') {
+                judul = 'Penjelasan Jangkauan';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Jangkauan = data terbesar - data terkecil<br><b>Contoh:</b> Data: 5,7,9,12,15<br>Jangkauan = 15 - 5 = 10' :
+                    '<b>Rumus:</b> Jangkauan = batas atas kelas terakhir - batas bawah kelas pertama';
+            } else if (ukuran === 'simpangan') {
+                judul = 'Penjelasan Simpangan Rata-rata';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Simpangan Rata-rata = Σ|xi - mean| / n<br><b>Contoh:</b> Data: 5,7,9<br>Mean = 7<br>Simpangan = (|5-7|+|7-7|+|9-7|)/3 = 1.33' :
+                    '<b>Rumus:</b> Simpangan Rata-rata = Σ|xi - mean| × fi / Σfi';
+            } else if (ukuran === 'ragam') {
+                judul = 'Penjelasan Ragam (Varians)';
+                isi = (jenis === 'tunggal') ?
+                    '<b>Rumus:</b> Ragam = Σ(xi - mean)² / n<br><b>Contoh:</b> Data: 5,7,9<br>Mean = 7<br>Ragam = [(5-7)² + (7-7)² + (9-7)²]/3 = 2.67' :
+                    '<b>Rumus:</b> Ragam = Σ(xi - mean)² × fi / Σfi';
+            }
+            document.getElementById('judulPenjelasan').innerHTML = judul;
+            document.getElementById('isiPenjelasan').innerHTML = isi;
+            document.getElementById('modal-bg').style.display = 'block';
+            document.getElementById('modal-penjelasan').style.display = 'block';
+        }
+
+        function hidePenjelasan() {
+            document.getElementById('modal-bg').style.display = 'none';
+            document.getElementById('modal-penjelasan').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
