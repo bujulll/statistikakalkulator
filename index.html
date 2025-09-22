@@ -3,19 +3,29 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Statistika Education</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="brand"><span>Stat</span><b>Edu.</b></div>
+        <a href="index.html" class="brand"><span>Stat</span><b>Edu.</b></a>
         <div class="menu" id="menu">
             <a href="#hero">Home</a>
-            <a href="#materi">Materi</a>
-            <a href="#">Kalkulator</a>
-            <a href="#">Game Quiz</a>
+            <div class="menu-item has-submenu">
+            <a href="#" class="submenu-toggle" aria-haspopup="true" aria-expanded="false">Materi</a>
+            <div class="submenu" aria-label="Submenu Materi">
+                <a href="pemusatan-data.html">Ukuran Pemusatan Data</a>
+                <a href="penyebaran-data.html">Ukuran Penyebaran Data</a>
+            </div>
+            </div>
+            <a href="kalkulator.html">Kalkulator</a>
+            <a href="quiz.html">Game Quiz</a>
         </div>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -40,7 +50,7 @@
             <a href="pemusatan-data.html" class="materi-card" id="to-pemusatan">Ukuran Pemusatan Data</a>
             <a href="penyebaran-data.html" class="materi-card">Ukuran Penyebaran Data</a>
             <a href="kalkulator.html" class="materi-card">Kalkulator Statistik</a>
-            <a href="#" class="materi-card">Game Quiz</a>
+            <a href="quiz.html" class="materi-card">Game Quiz</a>
         </div>
     </section>
     <footer class="footer">

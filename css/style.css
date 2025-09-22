@@ -1,22 +1,127 @@
+/* GLOBAL STYLES */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
     background: #181511;
     color: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
+    max-width: 100vw;
 }
 
+/* Touch-friendly elements */
+button, 
+.materi-card, 
+.pemusatan-materi-card, 
+.penyebaran-materi-card,
+.cta-btn,
+.penjelasan-btn,
+.hamburger {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px; /* Minimum touch target size */
+    min-width: 44px;
+}
+
+/* Ensure proper spacing for touch targets */
+@media (max-width: 768px) {
+    .menu a {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hamburger {
+        min-height: 48px;
+        min-width: 48px;
+    }
+}
+
+/* Improve text rendering on mobile */
+@media (max-width: 768px) {
+    body {
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+    }
+    
+    /* Improve form elements on mobile */
+    input, select, textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+        border-radius: 8px;
+    }
+    
+    /* Ensure select dropdowns are readable on mobile */
+    select {
+        font-size: 16px !important;
+        padding: 12px 14px !important;
+    }
+    
+    /* Better spacing for form elements */
+    .kalkulator-form label {
+        margin-bottom: 8px;
+    }
+    
+    .kalkulator-form select,
+    .kalkulator-form input,
+    .kalkulator-form textarea {
+        margin-bottom: 16px;
+    }
+}
+
+/* Desktop form elements styling */
+@media (min-width: 769px) {
+    select {
+        font-size: 1.1em !important;
+        padding: 10px 14px !important;
+    }
+    
+    .kalkulator-form select {
+        font-size: 1.15em !important;
+        padding: 12px 16px !important;
+        padding-right: 40px !important;
+    }
+}
+
+/* Navbar: bilah navigasi tetap di bagian atas */
 .navbar {
-    width: 100vw;
+    width: 100%;
+    max-width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 48px;
-    background: rgba(20, 17, 13, 0.98);
+    padding: 16px 24px;
+    background: rgba(20, 17, 13, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     z-index: 10;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar:hover {
+    background: rgba(20, 17, 13, 0.98);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
 }
 
 .brand {
@@ -24,35 +129,156 @@ body {
     font-weight: bold;
     color: #fff;
     letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.brand:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(182, 137, 91, 0.3);
 }
 
 .brand span {
     color: #fff;
     font-weight: 400;
+    transition: color 0.3s ease;
 }
 
 .brand b {
     color: #b6895b;
     font-weight: 700;
+    transition: all 0.3s ease;
 }
 
+.brand:hover b {
+    color: #d4a574;
+    text-shadow: 0 0 8px rgba(182, 137, 91, 0.5);
+}
+
+/* Menu: wadah tautan horizontal */
 .menu {
     display: flex;
     gap: 32px;
     transition: right 0.3s;
 }
 
+/* Submenu (dropdown) for Materi */
+.menu-item {
+    position: relative;
+}
+
+.menu-item > a {
+    display: inline-block;
+    position: relative;
+}
+
+/* Caret indicator untuk dropdown */
+.menu-item > a::before {
+    content: '▼';
+    font-size: 0.7em;
+    margin-left: 6px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+/* Submenu: daftar dropdown di bawah menu Materi */
+.submenu {
+    position: absolute;
+    top: 32px;
+    left: 0;
+    min-width: 220px;
+    background: #181511;
+    border: 1px solid #222;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px #0005;
+    display: none;
+    flex-direction: column;
+    padding: 8px 0;
+    z-index: 20;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.submenu a {
+    padding: 10px 14px;
+    display: block;
+    color: #fff;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.submenu a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, #b6895b22, #b6895b44);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.submenu a:hover {
+    background: #23201c;
+    color: #b6895b;
+    transform: translateX(4px);
+}
+
+.submenu a:hover::before {
+    width: 100%;
+}
+
+/* Animasi saat dropdown terbuka */
+.menu-item.open > .submenu {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Animasi caret saat dropdown terbuka */
+.menu-item.open > a::before {
+    transform: rotate(180deg);
+}
+
 .menu a {
     position: relative;
     color: #fff;
     text-decoration: none;
-    padding: 4px 0;
-    transition: color 0.2s;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.menu a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(182, 137, 91, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.menu a:hover::before {
+    width: 120px;
+    height: 120px;
 }
 
 .menu a:hover,
 .menu a:focus {
-    color: #b6895b; /* warna saat hover */
+    color: #b6895b;
+    transform: translateY(-2px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .menu a::after {
@@ -84,6 +310,12 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 10;
+    transition: transform 0.2s ease;
+    position: relative;
+}
+
+.hamburger:hover {
+    transform: scale(1.1);
 }
 
 .hamburger span {
@@ -93,45 +325,211 @@ body {
     margin: 4px 0;
     background: #fff;
     border-radius: 2px;
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
 }
 
 .hamburger.active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
+    background: #b6895b;
 }
 
 .hamburger.active span:nth-child(2) {
     opacity: 0;
+    transform: scaleX(0);
 }
 
 .hamburger.active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
+    background: #b6895b;
 }
 
-@media (max-width: 700px) {
+/* RESPONSIVE DESIGN - MOBILE FIRST APPROACH */
+
+/* Extra Small devices (phones, 320px and up) */
+@media (max-width: 480px) {
     .navbar {
-        padding-left: 16px;
-        padding-right: 16px;
+        padding: 8px 12px;
+        height: 48px;
     }
 
+    .brand {
+        font-size: 1.4em;
+    }
+
+    .hero {
+        padding: 0 0 0 4vw;
+    }
+
+    .hero-content {
+        padding: 0 16px;
+        margin-top: 60px;
+        max-width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2em;
+        line-height: 1.2;
+        word-wrap: break-word;
+    }
+
+    .hero-content p {
+        font-size: 1em;
+        word-wrap: break-word;
+    }
+
+    .cta-btn {
+        padding: 12px 24px;
+        font-size: 1em;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .materi-section {
+        padding: 30px 12px 40px 12px;
+    }
+
+    .materi-section h2 {
+        font-size: 1.6em;
+    }
+
+    .materi-cards {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .materi-card {
+        padding: 16px 12px;
+        font-size: 1em;
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .hero-content {
+        padding: 0 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+
+    .materi-section {
+        padding: 35px 16px 50px 16px;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .navbar {
+        padding: 14px 20px;
+    }
+
+    .hero-content {
+        padding: 0 32px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.8em;
+    }
+
+    .materi-section {
+        padding: 40px 24px 60px 24px;
+    }
+
+    .materi-cards {
+        gap: 20px;
+    }
+
+    .materi-card {
+        padding: 20px 16px;
+        min-width: 140px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .navbar {
+        padding: 16px 24px;
+    }
+
+    .hero-content {
+        padding: 0 40px;
+    }
+
+    .materi-section {
+        padding: 40px 32px 60px 32px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 993px) {
+    .navbar {
+        padding: 16px 24px;
+    }
+
+    .hero-content {
+        padding: 0 7vw;
+    }
+
+    .materi-section {
+        padding: 40px 5vw 60px 5vw;
+    }
+}
+
+/* Mobile menu styles */
+@media (max-width: 768px) {
     .menu {
         position: absolute;
         top: 70px;
-        right: -100vw;
+        right: -100%;
         background: #181511;
         flex-direction: column;
         gap: 0;
-        width: 100vw;
+        width: 100%;
+        max-width: 100vw;
         text-align: center;
         padding: 32px 0;
-        transition: right 0.3s;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 15;
+        box-shadow: 0 8px 32px #0008;
+        backdrop-filter: blur(10px);
     }
 
     .menu a {
         padding: 16px 0;
         font-size: 1.2em;
         border-bottom: 1px solid #222;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .menu a::before {
+        content: '';
+        position: absolute;
+        left: -100%;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, #b6895b22, transparent);
+        transition: left 0.5s ease;
+    }
+
+    .menu a:hover::before {
+        left: 100%;
+    }
+
+    .menu a:hover {
+        background: #23201c;
+        color: #b6895b;
+        transform: translateX(8px);
     }
 
     .menu.active {
@@ -141,12 +539,44 @@ body {
     .hamburger {
         display: flex;
     }
+
+    /* Animasi untuk submenu di mobile */
+    .submenu {
+        position: static;
+        background: #23201c;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 8px 0;
+        opacity: 1;
+        transform: none;
+        transition: all 0.3s ease;
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .menu-item.open > .submenu {
+        max-height: 200px;
+        padding: 8px 0;
+    }
+
+    .submenu a {
+        padding: 12px 20px;
+        font-size: 1em;
+        border-bottom: 1px solid #333;
+    }
+
+    .submenu a:hover {
+        background: #2a2720;
+        transform: translateX(12px);
+    }
 }
 
-/* HERO SECTION */
+/* HERO SECTION: banner utama dengan gambar latar dan overlay */
 .hero {
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
+    max-width: 100vw;
     background:
         linear-gradient(to bottom,
             rgba(24, 21, 17, 0.85) 60%,
@@ -158,11 +588,27 @@ body {
     padding: 0 0 0 7vw;
     box-sizing: border-box;
     position: relative;
+    animation: heroFadeIn 1s ease-out;
+    overflow-x: hidden;
+}
+
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .hero-content {
     max-width: 600px;
+    width: 100%;
     margin-top: 80px;
+    padding-right: 20px;
+    animation: slideInLeft 0.8s ease-out 0.3s both;
 }
 
 .hero-content h1 {
@@ -171,6 +617,7 @@ body {
     margin-bottom: 16px;
     line-height: 1.1;
     color: #fff;
+    animation: slideInUp 0.8s ease-out 0.5s both;
 }
 
 .hero-content .kopi {
@@ -181,6 +628,18 @@ body {
     font-size: 1.2em;
     margin-bottom: 32px;
     color: #e0d7ce;
+    animation: slideInUp 0.8s ease-out 0.7s both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .cta-btn {
@@ -188,17 +647,40 @@ body {
     color: #fff;
     font-size: 1.1em;
     font-weight: bold;
-    padding: 16px 36px;
+    padding: 12px 28px;
     border: none;
     border-radius: 32px;
     cursor: pointer;
     box-shadow: 0 4px 24px #0004;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.8s ease-out 0.9s both;
+}
+
+.cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.cta-btn:hover::before {
+    width: 120px;
+    height: 120px;
 }
 
 .cta-btn:hover {
     background: #222;
     color: #f9c846;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px #0006;
 }
 
 .hero-image {
@@ -215,10 +697,16 @@ body {
 }
 
 /* MATERI SECTION */
+/* Materi section: grid kartu untuk modul pembelajaran */
 .materi-section {
     background: #181511;
-    padding: 60px 7vw 80px 7vw;
+    padding: 40px 5vw 60px 5vw;
     text-align: center;
+    animation: fadeInUp 0.8s ease-out 1.1s both;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .materi-section h2 {
@@ -228,6 +716,18 @@ body {
     font-weight: 700;
     letter-spacing: 1px;
     text-align: center;
+    animation: slideInUp 0.8s ease-out 1.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .materi-cards {
@@ -236,22 +736,63 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    animation: fadeInUp 0.8s ease-out 1.5s both;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
+/* Materi card: item modul yang bisa diklik */
 .materi-card {
     background: #23201c;
     color: #fff;
     border-radius: 16px;
-    padding: 36px 28px;
-    min-width: 180px;
+    padding: 24px 20px;
+    min-width: 160px;
+    max-width: 100%;
     text-align: center;
     font-size: 1.1em;
     font-weight: 500;
     text-decoration: none;
     box-shadow: 0 4px 24px #0002;
     border: 2px solid transparent;
-    transition: border 0.2s, transform 0.2s, box-shadow 0.2s;
+    transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.materi-card:nth-child(1) {
+    animation-delay: 1.7s;
+}
+
+.materi-card:nth-child(2) {
+    animation-delay: 1.9s;
+}
+
+.materi-card:nth-child(3) {
+    animation-delay: 2.1s;
+}
+
+.materi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(182, 137, 91, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.materi-card:hover::before {
+    left: 100%;
 }
 
 .materi-card:hover {
@@ -260,17 +801,71 @@ body {
     box-shadow: 0 8px 32px #0004;
 }
 
-html {
-    scroll-behavior: smooth;
+/* Table responsive improvements */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.8em;
+    }
+    
+    th, td {
+        padding: 4px 6px !important;
+    }
+    
+    /* Make tables horizontally scrollable on mobile */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Modal improvements for mobile */
+@media (max-width: 768px) {
+    .modal-materi,
+    .pemusatan-modal-materi,
+    .penyebaran-modal-materi,
+    .modal-penjelasan {
+        margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Tabel materi (seragam untuk pemusatan/penyebaran) */
+.table-wrap { /* pembungkus agar tabel bisa di-scroll horizontal di mobile */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table { /* tabel dasar */
+    margin: 12px auto 16px auto;
+    border-collapse: collapse;
+}
+
+.table-dark { /* tema gelap sesuai footer/tema */
+    background: #181511;
+    color: #fff;
+}
+
+.table th,
+.table td { /* sel tabel umum */
+    padding: 6px 14px;
+    border: 2px solid #a97c50;
+}
+
+.table-header { /* header tabel berwarna krem */
+    background: #f7ede2;
+    color: #a97c50;
 }
 
 /* FOOTER SECTION */
+/* Footer: area kaki situs halaman */
 .footer {
     background: #181511;
     color: #fff;
-    padding: 32px 0 16px 0;
+    padding: 24px 0 12px 0;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .footer-content {
@@ -316,4 +911,1915 @@ html {
 .fade-out {
     opacity: 0;
     transition: opacity 0.5s;
+}
+
+/* KALKULATOR PAGE STYLES */
+/* Kalkulator: latar belakang body untuk halaman kalkulator */
+.kalkulator-body {
+    background: url('../img/bg-kalkulator.jpg') center/cover no-repeat fixed; /* gambar latar + cover */
+    margin: 0; /* hilangkan margin default body */
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif; /* font konsisten */
+    min-height: 100vh; /* tinggi minimal layar penuh */
+    color: #23201c; /* warna teks gelap */
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+/* Kalkulator navbar: bilah atas lengket (sticky) pada halaman kalkulator */
+.kalkulator-navbar {
+    width: 100%;
+    max-width: 100vw;
+    background: #23201c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 20px;
+    height: 56px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: hidden;
+}
+
+.kalkulator-navbar .brand {
+    font-size: 1.35em;
+    font-weight: bold;
+    margin-left: 18px;
+    color: #f7ede2;
+}
+
+.kalkulator-navbar .brand b {
+    color: #a97c50;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    margin-right: 12px;
+    text-decoration: none;
+}
+
+/* Kalkulator hero: kontainer utama yang memusatkan kartu */
+.kalkulator-hero {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 120px 16px; /* Tambah padding bawah untuk footer */
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Kalkulator card: panel putih dengan sudut membulat */
+.kalkulator-hero-content {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px #0003;
+    padding: 28px 24px 24px 24px;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease-out;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.kalkulator-hero-content:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px #0004;
+}
+
+.kalkulator-hero-content h2 {
+    color: #a97c50;
+    font-size: 2em;
+    margin-bottom: 18px;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    animation: slideInUp 0.6s ease-out 0.1s both;
+}
+
+/* Bilah info: kotak rumus atau informasi ringkas */
+.rumus {
+    background: #f7ede2;
+    color: #a97c50;
+    margin: 0 0 24px 0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.08em;
+    text-align: center;
+    animation: slideInUp 0.6s ease-out 0.1s both;
+}
+
+.kalkulator-form label {
+    color: #23201c;
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.kalkulator-form select,
+.kalkulator-form input,
+.kalkulator-form textarea {
+    border-radius: 8px;
+    border: 1px solid #a97c50;
+    padding: 10px 14px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.1em;
+    background: #fff;
+    color: #23201c;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease-out 0.4s both;
+}
+
+/* Specific styling for select dropdown */
+.kalkulator-form select {
+    font-size: 1.15em;
+    font-weight: 500;
+    padding: 12px 16px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a97c50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+    animation: slideInUp 0.6s ease-out 0.6s both;
+}
+
+.kalkulator-form select:focus,
+.kalkulator-form input:focus,
+.kalkulator-form textarea:focus {
+    border-color: #b6895b;
+    outline: none;
+}
+
+.kalkulator-form button,
+.penjelasan-btn {
+    background: #a97c50;
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 8px;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px #0001;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 0.8s both;
+}
+
+.kalkulator-form button::before,
+.penjelasan-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.kalkulator-form button:hover::before,
+.penjelasan-btn:hover::before {
+    width: 120px;
+    height: 120px;
+}
+
+.kalkulator-form button:hover,
+.penjelasan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(169, 124, 80, 0.3);
+}
+
+.kalkulator-form button:active,
+.penjelasan-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(169, 124, 80, 0.3);
+}
+
+.penjelasan-btn {
+    background: #fff;
+    color: #a97c50;
+    border: 2px solid #a97c50;
+    margin-top: 12px;
+    margin-bottom: 0;
+    animation: slideInUp 0.6s ease-out 1.8s both;
+}
+
+.penjelasan-btn:hover {
+    background: #a97c50;
+    color: #fff;
+}
+
+.calc-btn:hover {
+    background: #b6895b;
+}
+
+/* Kalkulator action buttons */
+/* Kalkulator actions: grup tombol responsif */
+.kalkulator-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 8px;
+    animation: slideInUp 0.6s ease-out 1.0s both;
+}
+
+/* Aksi utama: Hitung */
+.calc-btn {
+    background: #b6895b; /* primary brand */
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px #0001;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 1.2s both;
+}
+
+.calc-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.calc-btn:hover::before {
+    width: 0;
+    height: 0;
+}
+
+.calc-btn:hover {
+    background: #b6895b;
+    transform: none;
+    box-shadow: 0 2px 8px #0001;
+}
+
+/* Aksi sekunder: Gunakan Contoh */
+.example-btn {
+    background: #3b82f6; /* blue */
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px #0001;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 1.4s both;
+}
+
+.example-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.example-btn:hover::before {
+    width: 0;
+    height: 0;
+}
+
+.example-btn:hover {
+    background: #3b82f6;
+    transform: none;
+    box-shadow: 0 2px 8px #0001;
+}
+
+/* Aksi bahaya: Reset form */
+.reset-btn {
+    background: #ef4444; /* red */
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px #0001;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 1.6s both;
+}
+
+.reset-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.reset-btn:hover::before {
+    width: 0;
+    height: 0;
+}
+
+.reset-btn:hover {
+    background: #ef4444;
+    transform: none;
+    box-shadow: 0 2px 8px #0001;
+}
+
+@media (min-width: 577px) {
+    .kalkulator-actions {
+        grid-template-columns: repeat(3, auto);
+        justify-content: start;
+        gap: 12px;
+    }
+    .kalkulator-actions .calc-btn,
+    .kalkulator-actions .example-btn,
+    .kalkulator-actions .reset-btn {
+        min-width: 140px;
+    }
+}
+
+/* Accessibility and pre-click emphasis */
+.calc-btn:focus-visible,
+.example-btn:focus-visible,
+.reset-btn:focus-visible {
+    outline: 3px solid #b6895b66;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(182, 137, 91, 0.2);
+}
+
+/* Teks hasil keluaran */
+#hasilKalkulator {
+    margin-top: 18px;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #23201c;
+    text-align: center;
+    min-height: 24px;
+}
+
+/* Pastikan langkah perhitungan terbaca dan tidak terpotong */
+#langkahKalkulator {
+    margin-top: 8px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+    #langkahKalkulator {
+        /* gunakan svh agar mengikuti visual viewport di mobile/webview */
+        max-height: 60svh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 6px; /* ruang untuk scrollbar agar teks tidak ketutup */
+        overscroll-behavior: contain;
+        padding-bottom: 4px;
+    }
+}
+
+#inputKelompok table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+
+#inputKelompok th {
+    color: #23201c !important;
+    font-weight: bold;
+    font-size: 1em;
+    background: transparent;
+    opacity: 1;
+    padding: 6px 0;
+}
+
+#inputKelompok td {
+    padding: 4px 0;
+}
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 9999;
+}
+
+.modal-penjelasan {
+    background: #fffbe9;
+    color: #23201c;
+    border-radius: 16px;
+    padding: 32px 24px 24px 24px;
+    max-width: 520px;
+    width: 96%;
+    font-size: 1.15em;
+    box-shadow: 0 8px 32px #0005;
+    display: none;
+    z-index: 10000;
+    position: fixed;
+    left: 50%;
+    top: calc(60% + 24px); /* turunkan sedikit agar tidak mepet navbar */
+    transform: translate(-50%, -50%);
+    animation: modalSlideIn 0.4s ease-out;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, calc(-60% + 12px));
+        scale: 0.9;
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+        scale: 1;
+    }
+}
+
+/* Jarak ekstra di perangkat mobile agar modal tidak menabrak navbar */
+@media (max-width: 768px) {
+    .modal-penjelasan {
+        top: calc(60% + 36px);
+    }
+}
+
+.modal-penjelasan h3 {
+    margin-top: 0;
+    color: #a97c50;
+    text-align: center;
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.modal-penjelasan button {
+    background: #a97c50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 18px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-penjelasan button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.modal-penjelasan button:hover::before {
+    width: 120px;
+    height: 120px;
+}
+
+.modal-penjelasan button:hover {
+    background: #b6895b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(169, 124, 80, 0.3);
+}
+
+.modal-penjelasan b {
+    color: #a97c50;
+}
+
+.kalkulator-footer {
+    width: 100%;
+    background: #23201c;
+    color: #a97c50;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    box-shadow: 0 -2px 12px #0002;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.kalkulator-footer:hover {
+    box-shadow: 0 -4px 20px #0004;
+    background: #2a2720;
+}
+
+.kalkulator-footer-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 18px 0 12px 0;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.kalkulator-footer-brand {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #a97c50;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.kalkulator-footer-brand:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 8px rgba(169, 124, 80, 0.5);
+}
+
+.kalkulator-footer-copy {
+    font-size: 0.95em;
+    color: #f7ede2;
+    transition: color 0.3s ease;
+}
+
+/* Mobile-specific footer handling to avoid fixed-footer issues in webview */
+@media (max-width: 480px) {
+    .kalkulator-footer {
+        position: sticky; /* gunakan sticky di mobile untuk stabilitas */
+        bottom: 0;
+    }
+    .kalkulator-footer-content {
+        padding: 12px 0 calc(10px + env(safe-area-inset-bottom)) 0;
+    }
+}
+
+.kalkulator-footer:hover .kalkulator-footer-copy {
+    color: #fff;
+}
+
+/* QUIZ STYLES */
+.quiz-hero {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px 120px 16px; /* ruang untuk footer */
+}
+
+.quiz-card {
+    background: #ffffff;
+    color: #23201c;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px #0003;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px 18px;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.quiz-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px #0004;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    animation: slideInUp 0.6s ease-out 0.2s both;
+}
+
+.quiz-progress {
+    background: #f7ede2;
+    color: #a97c50;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-weight: 700;
+    animation: slideInUp 0.6s ease-out 0.3s both;
+}
+
+.quiz-timer {
+    color: #a97c50;
+    font-weight: 600;
+    animation: slideInUp 0.6s ease-out 0.3s both;
+}
+
+.quiz-question {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin: 12px 0 16px 0;
+    animation: slideInUp 0.6s ease-out 0.4s both;
+}
+
+.quiz-choices {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    animation: slideInUp 0.6s ease-out 0.6s both;
+}
+
+.quiz-choice {
+    background: #fff;
+    color: #23201c;
+    border: 2px solid #a97c50;
+    border-radius: 12px;
+    padding: 12px 14px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.quiz-choice:nth-child(1) {
+    animation-delay: 0.7s;
+}
+
+.quiz-choice:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+.quiz-choice:nth-child(3) {
+    animation-delay: 0.9s;
+}
+
+.quiz-choice:nth-child(4) {
+    animation-delay: 1.0s;
+}
+
+.quiz-choice::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(169, 124, 80, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.quiz-choice:hover::before {
+    left: 100%;
+}
+
+.quiz-choice.selected {
+    border-color: #b6895b;
+    box-shadow: 0 4px 16px #b6895b22;
+    background: #f7ede2;
+    color: #a97c50;
+}
+
+.quiz-choice.correct {
+    background: #e8f7ef;
+    border-color: #2e7d32;
+}
+
+.quiz-choice.wrong {
+    background: #fdecea;
+    border-color: #c62828;
+}
+
+.quiz-choice:hover {
+    background: #faf4ec;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(169, 124, 80, 0.2);
+}
+
+.quiz-choice:focus-visible {
+    outline: 3px solid #b6895b66;
+    outline-offset: 2px;
+}
+
+.quiz-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 16px;
+    animation: slideInUp 0.6s ease-out 0.8s both;
+}
+
+.quiz-next {
+    background: #a97c50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out 1.1s both;
+}
+
+.quiz-next::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.quiz-next:hover::before {
+    width: 120px;
+    height: 120px;
+}
+
+.quiz-next:hover {
+    background: #b6895b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(169, 124, 80, 0.3);
+}
+
+.quiz-next:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(169, 124, 80, 0.3);
+}
+
+.quiz-explanation {
+    margin-top: 12px;
+    background: #fffbe9;
+    border: 1px solid #f1e3c4;
+    color: #23201c;
+    border-radius: 12px;
+    padding: 12px 14px;
+    animation: fadeInUp 0.5s ease-out 1.3s both;
+    transition: all 0.3s ease;
+}
+
+.quiz-explanation:hover {
+    background: #fff8e1;
+    border-color: #e6d7b8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(241, 227, 196, 0.3);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (min-width: 577px) {
+    .quiz-card {
+        padding: 24px 24px;
+    }
+    .quiz-choices {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* KALKULATOR RESPONSIVE DESIGN */
+
+/* Extra Small devices (phones, 320px and up) */
+@media (max-width: 480px) {
+    .kalkulator-navbar {
+        padding: 0 8px;
+        height: 48px;
+    }
+
+    .kalkulator-navbar .brand {
+        font-size: 1.2em;
+        margin-left: 12px;
+    }
+
+    .kalkulator-hero {
+        padding: 16px 0 40px 0;
+    }
+
+    .kalkulator-hero-content {
+        padding: 16px 12px;
+        max-width: 95vw;
+        margin: 0 8px;
+    }
+
+    .kalkulator-hero-content h2 {
+        font-size: 1.6em;
+        margin-bottom: 16px;
+    }
+
+    .rumus {
+        font-size: 0.95em;
+        padding: 10px;
+    }
+
+    .kalkulator-form label {
+        font-size: 0.9em;
+    }
+
+    .kalkulator-form select,
+    .kalkulator-form input,
+    .kalkulator-form textarea {
+        padding: 12px 14px;
+        font-size: 1em;
+    }
+    
+    .kalkulator-form select {
+        font-size: 1.05em;
+        padding: 14px 16px;
+        padding-right: 40px;
+    }
+
+    .kalkulator-form button,
+    .penjelasan-btn {
+        padding: 12px 20px;
+        font-size: 0.9em;
+    }
+
+    .modal-penjelasan {
+        padding: 20px 16px;
+        max-width: 95vw;
+        font-size: 1em;
+    }
+
+    .kalkulator-footer {
+        padding: 12px 0 8px 0;
+    }
+
+    .kalkulator-footer-brand {
+        font-size: 1.1em;
+    }
+
+    .kalkulator-footer-copy {
+        font-size: 0.85em;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .kalkulator-hero-content {
+        padding: 20px 16px;
+        max-width: 90vw;
+    }
+
+    .kalkulator-hero-content h2 {
+        font-size: 1.8em;
+    }
+    
+    .kalkulator-form select {
+        font-size: 1.1em;
+        padding: 13px 16px;
+        padding-right: 40px;
+    }
+
+    .modal-penjelasan {
+        padding: 24px 20px;
+        max-width: 90vw;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .kalkulator-hero-content {
+        padding: 24px 20px;
+        max-width: 85vw;
+    }
+
+    .kalkulator-hero-content h2 {
+        font-size: 2em;
+    }
+    
+    .kalkulator-form select {
+        font-size: 1.12em;
+        padding: 12px 16px;
+        padding-right: 40px;
+    }
+
+    .modal-penjelasan {
+        padding: 28px 24px;
+        max-width: 85vw;
+    }
+}
+
+/* Large devices and up */
+@media (min-width: 769px) {
+    .kalkulator-hero-content {
+        padding: 28px 24px 24px 24px;
+        max-width: 480px;
+    }
+    
+    .kalkulator-form select {
+        font-size: 1.15em;
+        padding: 12px 16px;
+        padding-right: 40px;
+    }
+
+    .modal-penjelasan {
+        padding: 32px 24px 24px 24px;
+        max-width: 520px;
+    }
+}
+
+/* PEMUSATAN DATA PAGE STYLES */
+.pemusatan-hero {
+    background: #a97c50 !important;
+    min-height: 50vh;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    flex-direction: column;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    animation: heroFadeIn 1s ease-out;
+}
+
+.hero-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.pemusatan-hero-content {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.pemusatan-hero-content h1,
+.pemusatan-hero-content p {
+    text-align: center;
+}
+
+/* Badge chip style (shared inline fallback already used) */
+.chip {
+    background: #23201c;
+    color: #f7ede2;
+    border: 1px solid #a97c50;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.92em;
+}
+
+.pemusatan-hero-content p {
+    text-align: justify;
+}
+
+.pemusatan-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 100;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+}
+
+.pemusatan-back-btn {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+}
+
+.pemusatan-back-btn svg {
+    display: block;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.pemusatan-back-btn:hover svg {
+    background: #fff2;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.pemusatan-brand {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.pemusatan-next-btn {
+    position: absolute;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+}
+
+.pemusatan-next-btn svg {
+    display: block;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.pemusatan-next-btn:hover svg {
+    background: #fff2;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.pemusatan-hero-content img {
+    display: block;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    margin: 80px auto 32px auto;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0002;
+    object-fit: cover;
+    background: #fff;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 180px;
+    margin-top: 16px;
+}
+
+.hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pemusatan-materi-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.pemusatan-materi-cards-center {
+    justify-content: center !important;
+    margin-top: 32px;
+}
+
+.pemusatan-materi-card {
+    background: #23201c;
+    color: #fff;
+    border-radius: 16px;
+    padding: 18px 24px;
+    min-width: 100px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 24px #0002;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.pemusatan-materi-card:nth-child(1) {
+    animation-delay: 0.7s;
+}
+
+.pemusatan-materi-card:nth-child(2) {
+    animation-delay: 0.9s;
+}
+
+.pemusatan-materi-card:nth-child(3) {
+    animation-delay: 1.1s;
+}
+
+.pemusatan-materi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(182, 137, 91, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.pemusatan-materi-card:hover::before {
+    left: 100%;
+}
+
+.pemusatan-materi-card:last-child {
+    margin-right: 0;
+}
+
+.pemusatan-materi-card:hover {
+    border: 2px solid #fff;
+    color: #b6895b;
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px #b6895b33;
+}
+
+.pemusatan-modal-bg {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.pemusatan-modal-materi {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #222;
+    padding: 32px 24px 24px 24px;
+    border-radius: 16px;
+    min-width: 260px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px #0005;
+    text-align: center;
+}
+
+.pemusatan-modal-materi h3 {
+    margin-top: 0;
+    color: #a97c50;
+}
+
+.pemusatan-rumus {
+    background: #f7ede2;
+    color: #a97c50;
+    margin: 18px 0 18px 0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1em;
+}
+
+.pemusatan-modal-materi button {
+    margin-top: 12px;
+    padding: 8px 24px;
+    background: #a97c50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pemusatan-footer {
+    background: #181511;
+    color: #fff;
+    padding: 32px 0 16px 0;
+    text-align: center;
+    margin-top: 40px;
+    border-radius: 24px 24px 0 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 -2px 16px #0002;
+}
+
+/* PEMUSATAN DATA RESPONSIVE DESIGN */
+
+/* Extra Small devices (phones, 320px and up) */
+@media (max-width: 480px) {
+    .pemusatan-navbar {
+        min-height: 56px;
+    }
+
+    .pemusatan-back-btn,
+    .pemusatan-next-btn {
+        left: 12px;
+    }
+
+    .pemusatan-next-btn {
+        right: 12px;
+        left: auto;
+    }
+
+    .pemusatan-brand {
+        font-size: 1.3em;
+    }
+
+    .pemusatan-hero {
+        padding: 40px 12px 30px 12px;
+        min-height: 45vh;
+    }
+
+    .pemusatan-hero-content {
+        max-width: 100%;
+    }
+
+    .pemusatan-hero-content img {
+        max-width: 100%;
+        margin: 40px auto 24px auto;
+        border-radius: 12px;
+    }
+
+    .pemusatan-hero-content p {
+        font-size: 0.9em;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    .pemusatan-materi-cards {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+        margin-bottom: 32px;
+    }
+
+    .pemusatan-materi-card {
+        padding: 14px 16px;
+        font-size: 1em;
+        min-width: auto;
+    }
+
+    .pemusatan-modal-materi {
+        padding: 20px 16px;
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+
+    .pemusatan-modal-materi h3 {
+        font-size: 1.1em;
+    }
+
+    .pemusatan-rumus {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .pemusatan-footer {
+        margin-top: 20px;
+        padding: 20px 0 12px 0;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .pemusatan-hero {
+        padding: 55px 20px 45px 20px;
+    }
+
+    .pemusatan-hero-content img {
+        max-width: 90%;
+        margin: 50px auto 28px auto;
+    }
+
+    .pemusatan-materi-cards {
+        gap: 14px;
+    }
+
+    .pemusatan-materi-card {
+        padding: 18px 24px;
+    }
+
+    .pemusatan-modal-materi {
+        padding: 24px 20px;
+        max-width: 90vw;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .pemusatan-hero {
+        padding: 60px 24px 48px 24px;
+    }
+
+    .pemusatan-hero-content img {
+        max-width: 80%;
+        margin: 60px auto 32px auto;
+    }
+
+    .pemusatan-materi-cards {
+        gap: 16px;
+    }
+
+    .pemusatan-materi-card {
+        padding: 20px 28px;
+    }
+
+    .pemusatan-modal-materi {
+        padding: 28px 24px;
+        max-width: 85vw;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .pemusatan-hero {
+        padding: 60px 32px 48px 32px;
+    }
+
+    .pemusatan-hero-content img {
+        max-width: 70%;
+        margin: 70px auto 32px auto;
+    }
+
+    .pemusatan-materi-cards {
+        gap: 20px;
+    }
+
+    .pemusatan-materi-card {
+        padding: 22px 30px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 993px) {
+    .pemusatan-hero {
+        padding: 60px 7vw 48px 7vw;
+    }
+
+    .pemusatan-hero-content img {
+        max-width: 400px;
+        margin: 80px auto 32px auto;
+    }
+
+    .pemusatan-materi-cards {
+        gap: 24px;
+    }
+
+    .pemusatan-materi-card {
+        padding: 24px 32px;
+    }
+}
+
+/* Tablet and mobile layout adjustments */
+@media (max-width: 768px) {
+    .hero-flex {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 24px;
+    }
+
+    .hero-image {
+        justify-content: flex-start;
+        margin-top: 24px;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: 180px;
+        margin-top: 16px;
+    }
+}
+
+/* PENYEBARAN DATA PAGE STYLES */
+.penyebaran-hero {
+    background: #a97c50 !important;
+    min-height: 50vh;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 50px;
+    padding-bottom: 40px;
+    flex-direction: column;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    animation: heroFadeIn 1s ease-out;
+}
+
+.penyebaran-hero-content {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.penyebaran-hero-content h1,
+.penyebaran-hero-content p {
+    text-align: center;
+}
+
+.penyebaran-hero-content p {
+    text-align: justify;
+}
+
+.penyebaran-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 100;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+}
+
+.penyebaran-back-btn {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+}
+
+.penyebaran-back-btn svg {
+    display: block;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.penyebaran-back-btn:hover svg {
+    background: #fff2;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.penyebaran-brand {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.penyebaran-next-btn {
+    position: absolute;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    height: 100%;
+}
+
+.penyebaran-next-btn svg {
+    display: block;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.penyebaran-next-btn:hover svg {
+    background: #fff2;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.penyebaran-hero-content img {
+    display: block;
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    margin: 80px auto 32px auto;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #0002;
+    object-fit: cover;
+    background: #fff;
+}
+
+.penyebaran-materi-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.penyebaran-materi-cards-center {
+    justify-content: center !important;
+    margin-top: 32px;
+}
+
+.penyebaran-materi-card {
+    background: #23201c;
+    color: #fff;
+    border-radius: 16px;
+    padding: 18px 24px;
+    min-width: 100px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 24px #0002;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.6s ease-out;
+}
+
+.penyebaran-materi-card:nth-child(1) {
+    animation-delay: 0.7s;
+}
+
+.penyebaran-materi-card:nth-child(2) {
+    animation-delay: 0.9s;
+}
+
+.penyebaran-materi-card:nth-child(3) {
+    animation-delay: 1.1s;
+}
+
+.penyebaran-materi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(182, 137, 91, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.penyebaran-materi-card:hover::before {
+    left: 100%;
+}
+
+.penyebaran-materi-card:last-child {
+    margin-right: 0;
+}
+
+.penyebaran-materi-card:hover {
+    border: 2px solid #fff;
+    color: #b6895b;
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px #b6895b33;
+}
+
+.penyebaran-modal-bg {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.penyebaran-modal-materi {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #222;
+    padding: 32px 24px 24px 24px;
+    border-radius: 16px;
+    min-width: 260px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px #0005;
+    text-align: center;
+}
+
+.penyebaran-modal-materi h3 {
+    margin-top: 0;
+    color: #a97c50;
+}
+
+.penyebaran-rumus {
+    background: #f7ede2;
+    color: #a97c50;
+    margin: 18px 0 18px 0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1em;
+}
+
+.penyebaran-modal-materi button {
+    margin-top: 12px;
+    padding: 8px 24px;
+    background: #a97c50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.penyebaran-footer {
+    background: #181511;
+    color: #fff;
+    padding: 32px 0 16px 0;
+    text-align: center;
+    margin-top: 40px;
+    border-radius: 24px 24px 0 0;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 -2px 16px #0002;
+}
+
+/* PENYEBARAN DATA RESPONSIVE DESIGN */
+
+/* Extra Small devices (phones, 320px and up) */
+@media (max-width: 480px) {
+    .penyebaran-navbar {
+        min-height: 56px;
+    }
+
+    .penyebaran-back-btn,
+    .penyebaran-next-btn {
+        left: 12px;
+    }
+
+    .penyebaran-next-btn {
+        right: 12px;
+        left: auto;
+    }
+
+    .penyebaran-brand {
+        font-size: 1.3em;
+    }
+
+    .penyebaran-hero {
+        padding: 40px 12px 30px 12px;
+        min-height: 45vh;
+    }
+
+    .penyebaran-hero-content {
+        max-width: 100%;
+    }
+
+    .penyebaran-hero-content img {
+        max-width: 100%;
+        margin: 40px auto 24px auto;
+        border-radius: 12px;
+    }
+
+    .penyebaran-hero-content p {
+        font-size: 0.9em;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    .penyebaran-materi-cards {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+        margin-bottom: 32px;
+    }
+
+    .penyebaran-materi-card {
+        padding: 14px 16px;
+        font-size: 1em;
+        min-width: auto;
+    }
+
+    .penyebaran-modal-materi {
+        padding: 20px 16px;
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+
+    .penyebaran-modal-materi h3 {
+        font-size: 1.1em;
+    }
+
+    .penyebaran-rumus {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .penyebaran-footer {
+        margin-top: 20px;
+        padding: 20px 0 12px 0;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 481px) and (max-width: 576px) {
+    .penyebaran-hero {
+        padding: 55px 20px 45px 20px;
+    }
+
+    .penyebaran-hero-content img {
+        max-width: 90%;
+        margin: 50px auto 28px auto;
+    }
+
+    .penyebaran-materi-cards {
+        gap: 14px;
+    }
+
+    .penyebaran-materi-card {
+        padding: 18px 24px;
+    }
+
+    .penyebaran-modal-materi {
+        padding: 24px 20px;
+        max-width: 90vw;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .penyebaran-hero {
+        padding: 60px 24px 48px 24px;
+    }
+
+    .penyebaran-hero-content img {
+        max-width: 80%;
+        margin: 60px auto 32px auto;
+    }
+
+    .penyebaran-materi-cards {
+        gap: 16px;
+    }
+
+    .penyebaran-materi-card {
+        padding: 20px 28px;
+    }
+
+    .penyebaran-modal-materi {
+        padding: 28px 24px;
+        max-width: 85vw;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .penyebaran-hero {
+        padding: 60px 32px 48px 32px;
+    }
+
+    .penyebaran-hero-content img {
+        max-width: 70%;
+        margin: 70px auto 32px auto;
+    }
+
+    .penyebaran-materi-cards {
+        gap: 20px;
+    }
+
+    .penyebaran-materi-card {
+        padding: 22px 30px;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 993px) {
+    .penyebaran-hero {
+        padding: 60px 7vw 48px 7vw;
+    }
+
+    .penyebaran-hero-content img {
+        max-width: 400px;
+        margin: 80px auto 32px auto;
+    }
+
+    .penyebaran-materi-cards {
+        gap: 24px;
+    }
+
+    .penyebaran-materi-card {
+        padding: 24px 32px;
+    }
+}
+
+/* Tablet and mobile layout adjustments */
+@media (max-width: 768px) {
+    .penyebaran-materi-cards {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .penyebaran-hero-content img {
+        display: block;
+        max-width: 400px;
+        width: 100%;
+        height: auto;
+        margin: 80px auto 32px auto;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px #0002;
+        object-fit: cover;
+        background: #fff;
+    }
+}
+
+/* Additional responsive fixes to prevent horizontal scroll */
+@media (max-width: 768px) {
+    /* Ensure all containers respect viewport width */
+    .hero,
+    .materi-section,
+    .footer,
+    .kalkulator-hero,
+    .quiz-hero,
+    .pemusatan-hero,
+    .penyebaran-hero {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+        box-sizing: border-box;
+    }
+    
+    /* Fix any potential overflow issues */
+    .hero-content,
+    .materi-cards,
+    .kalkulator-hero-content,
+    .quiz-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure text doesn't cause overflow */
+    h1, h2, h3, p, span, div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    /* Fix button and input overflow */
+    button, input, select, textarea {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Ensure images are responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 }

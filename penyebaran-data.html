@@ -305,7 +305,7 @@
             </svg>
         </a>
         <div class="brand"><span>Ukuran Penyebaran </span><b>Data</b></div>
-        <a href="penyebaran-data.html" class="next-btn" aria-label="Lanjut ke Penyebaran Data">
+        <a href="kalkulator.html" class="next-btn" aria-label="Lanjut ke Penyebaran Data">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="vertical-align: middle;">
                 <path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -475,12 +475,6 @@
                 </b></div>
             <button onclick="hideModal()">Tutup</button>
         </div>
-        <div class="modal-materi" id="modal-modus">
-            <h3>Modus (Nilai yang Sering Muncul)</h3>
-            <p>Modus adalah nilai yang paling sering muncul dalam data.</p>
-            <div class="rumus">Rumus: <br> <b>Modus = nilai dengan frekuensi tertinggi</b></div>
-            <button onclick="hideModal()">Tutup</button>
-        </div>
         <div class="modal-materi" id="modal-jangkauan">
             <h3>Jangkauan (Range)</h3>
             <div class="rumus">
@@ -532,7 +526,9 @@
                 <b>Simpangan Kuartil = Q3 − Q1</b>
             </div>
             <p>
-                Simpangan kuartil adalah ukuran penyebaran data yang menunjukkan sebaran data di antara kuartil bawah (Q1) dan kuartil atas (Q3). Simpangan kuartil digunakan untuk mengetahui seberapa lebar distribusi data di bagian tengah.
+                Simpangan kuartil adalah ukuran penyebaran data yang menunjukkan sebaran data di antara kuartil bawah
+                (Q1) dan kuartil atas (Q3). Simpangan kuartil digunakan untuk mengetahui seberapa lebar distribusi data
+                di bagian tengah.
             </p>
             <p><b>Contoh Data Tunggal:</b><br>
                 Data: 4, 6, 7, 8, 10, 12, 15<br>
@@ -541,15 +537,28 @@
             </p>
             <p><b>Contoh Data Kelompok:</b><br>
                 Tabel:<br>
-                <table style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
+                <table
+                    style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
                     <tr style="background:#f7ede2; color:#a97c50;">
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Kelas</th>
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Frekuensi</th>
                     </tr>
-                    <tr><td style="border:2px solid #a97c50;">10–19</td><td style="border:2px solid #a97c50;">3</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">20–29</td><td style="border:2px solid #a97c50;">5</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">30–39</td><td style="border:2px solid #a97c50;">7</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">40–49</td><td style="border:2px solid #a97c50;">4</td></tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">10–19</td>
+                        <td style="border:2px solid #a97c50;">3</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">20–29</td>
+                        <td style="border:2px solid #a97c50;">5</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">30–39</td>
+                        <td style="border:2px solid #a97c50;">7</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">40–49</td>
+                        <td style="border:2px solid #a97c50;">4</td>
+                    </tr>
                 </table>
                 Misal hasil perhitungan:<br>
                 Q1 = 22, Q3 = 38<br>
@@ -564,7 +573,8 @@
                 <b>Simpangan Rata-rata = Σ|xi − x̄| / n</b>
             </div>
             <p>
-                Simpangan rata-rata adalah ukuran penyebaran data yang menunjukkan rata-rata selisih absolut setiap data terhadap rata-rata hitung (mean). Semakin kecil simpangan rata-rata, semakin homogen data.
+                Simpangan rata-rata adalah ukuran penyebaran data yang menunjukkan rata-rata selisih absolut setiap data
+                terhadap rata-rata hitung (mean). Semakin kecil simpangan rata-rata, semakin homogen data.
             </p>
             <p><b>Contoh Data Tunggal:</b><br>
                 Data: 5, 7, 9<br>
@@ -573,15 +583,28 @@
             </p>
             <p><b>Contoh Data Kelompok:</b><br>
                 Tabel:<br>
-                <table style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
+                <table
+                    style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
                     <tr style="background:#f7ede2; color:#a97c50;">
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Kelas</th>
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Frekuensi</th>
                     </tr>
-                    <tr><td style="border:2px solid #a97c50;">10–19</td><td style="border:2px solid #a97c50;">3</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">20–29</td><td style="border:2px solid #a97c50;">5</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">30–39</td><td style="border:2px solid #a97c50;">7</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">40–49</td><td style="border:2px solid #a97c50;">4</td></tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">10–19</td>
+                        <td style="border:2px solid #a97c50;">3</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">20–29</td>
+                        <td style="border:2px solid #a97c50;">5</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">30–39</td>
+                        <td style="border:2px solid #a97c50;">7</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">40–49</td>
+                        <td style="border:2px solid #a97c50;">4</td>
+                    </tr>
                 </table>
                 Misal hasil perhitungan:<br>
                 x̄ = 28<br>
@@ -597,7 +620,8 @@
                 <b>Ragam = Σ(xi − x̄)² / n</b>
             </div>
             <p>
-                Ragam (varians) adalah ukuran penyebaran data yang menunjukkan rata-rata kuadrat selisih setiap data terhadap rata-rata hitung. Ragam digunakan untuk mengetahui tingkat variasi data.
+                Ragam (varians) adalah ukuran penyebaran data yang menunjukkan rata-rata kuadrat selisih setiap data
+                terhadap rata-rata hitung. Ragam digunakan untuk mengetahui tingkat variasi data.
             </p>
             <p><b>Contoh Data Tunggal:</b><br>
                 Data: 5, 7, 9<br>
@@ -606,15 +630,28 @@
             </p>
             <p><b>Contoh Data Kelompok:</b><br>
                 Tabel:<br>
-                <table style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
+                <table
+                    style="margin:8px auto 16px auto; border-collapse:collapse; min-width:220px; background:#181511; color:#fff;">
                     <tr style="background:#f7ede2; color:#a97c50;">
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Kelas</th>
                         <th style="padding:6px 14px; border:2px solid #a97c50;">Frekuensi</th>
                     </tr>
-                    <tr><td style="border:2px solid #a97c50;">10–19</td><td style="border:2px solid #a97c50;">3</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">20–29</td><td style="border:2px solid #a97c50;">5</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">30–39</td><td style="border:2px solid #a97c50;">7</td></tr>
-                    <tr><td style="border:2px solid #a97c50;">40–49</td><td style="border:2px solid #a97c50;">4</td></tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">10–19</td>
+                        <td style="border:2px solid #a97c50;">3</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">20–29</td>
+                        <td style="border:2px solid #a97c50;">5</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">30–39</td>
+                        <td style="border:2px solid #a97c50;">7</td>
+                    </tr>
+                    <tr>
+                        <td style="border:2px solid #a97c50;">40–49</td>
+                        <td style="border:2px solid #a97c50;">4</td>
+                    </tr>
                 </table>
                 Misal hasil perhitungan:<br>
                 x̄ = 28<br>

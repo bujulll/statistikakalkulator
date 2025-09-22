@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Game Quiz Statistika | StatEdu</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="kalkulator-body quiz-body">
+    <nav class="navbar">
+        <a href="index.html" class="brand"><span>Stat</span><b>Edu.</b></a>
+        <div class="menu" id="menu">
+            <a href="index.html#hero">Home</a>
+            <div class="menu-item has-submenu">
+            <a href="#" class="submenu-toggle" aria-haspopup="true" aria-expanded="false">Materi</a>
+            <div class="submenu" aria-label="Submenu Materi">
+                <a href="pemusatan-data.html">Ukuran Pemusatan Data</a>
+                <a href="penyebaran-data.html">Ukuran Penyebaran Data</a>
+            </div>
+            </div>
+            <a href="kalkulator.html">Kalkulator</a>
+            <a href="quiz.html">Game Quiz</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="quiz-hero">
+        <div class="quiz-card" id="quiz-card">
+            <div class="quiz-header">
+                <div class="quiz-progress"><span id="quiz-step">1</span>/<span id="quiz-total">10</span></div>
+                <div class="quiz-timer" id="quiz-timer" aria-label="Timer"></div>
+            </div>
+            <div class="quiz-question" id="quiz-question">Memuat soal...</div>
+            <div class="quiz-choices" id="quiz-choices"></div>
+            <div class="quiz-actions">
+                <button id="btnHint" class="penjelasan-btn" type="button">Hint</button>
+                <button id="btnNext" class="quiz-next" type="button">Jawab & Lanjut</button>
+            </div>
+            <div class="quiz-explanation" id="quiz-explanation" hidden></div>
+        </div>
+    </section>
+
+    <footer class="kalkulator-footer">
+        <div class="kalkulator-footer-content">
+            <div class="kalkulator-footer-brand">StatEdu.</div>
+            <div class="kalkulator-footer-copy">&copy; 2025 StatEdu. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>
+
